@@ -6,7 +6,7 @@ from ultralytics import YOLO
 
 
 
-MODEL_DIR = './weight(68)/best.pt'
+MODEL_DIR = 'best.pt'
 
 
 
