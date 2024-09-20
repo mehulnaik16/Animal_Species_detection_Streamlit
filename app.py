@@ -6,7 +6,7 @@ from ultralytics import YOLO
 
 
 
-MODEL_DIR = 'best.pt'
+MODEL_DIR = './weight(68)/best.pt'
 
 
 
@@ -68,6 +68,8 @@ def inference_images(uploaded_file):
             st.markdown(f"**Animal:** {class_name.capitalize()}, **Confidence:** {confidence:.2%}")
 
     st.image(plotted, caption="Detected Image", width=600)
+    
+
 
 def inference_video(uploaded_file):
     temp_file = tempfile.NamedTemporaryFile(delete=False)
@@ -106,8 +108,7 @@ def inference_video(uploaded_file):
             os.unlink(temp_file.name)
             break
 
-    cap.release()
-
+    cap.release()  
     
 
 if __name__=='__main__':
