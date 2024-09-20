@@ -54,19 +54,17 @@ def main():
 
 def inference_images(uploaded_file):
     image = Image.open(uploaded_file)
+     # predict the image
     predict = model.predict(image)
+
+    # plot boxes
     boxes = predict[0].boxes
     plotted = predict[0].plot()[:, :, ::-1]
 
     if len(boxes) == 0:
         st.markdown("**No Detection**")
-    else:
-        st.markdown("**Detections:**")
-        for box in boxes:
-            class_name = predict[0].names[int(box.cls[0])]
-            confidence = box.conf[0]
-            st.markdown(f"**Animal:** {class_name.capitalize()}, **Confidence:** {confidence:.2%}")
 
+    # open the image.
     st.image(plotted, caption="Detected Image", width=600)
     
 
@@ -80,6 +78,7 @@ def inference_video(uploaded_file):
     frame_count = 0
     if not cap.isOpened():
         st.error("Error opening video file.")
+ 
 
     frame_placeholder = st.empty()
     stop_placeholder = st.button("Stop")
@@ -92,18 +91,15 @@ def inference_video(uploaded_file):
 
         frame_count += 1
         if frame_count % 2 == 0:
+            # predict the frame
             predict = model.predict(frame, conf=0.75)
+            # plot boxes
             plotted = predict[0].plot()
-            boxes = predict[0].boxes
 
-            st.markdown("**Detections in this frame:**")
-            for box in boxes:
-                class_name = predict[0].names[int(box.cls[0])]
-                confidence = box.conf[0]
-                st.markdown(f"**Animal:** {class_name.capitalize()}, **Confidence:** {confidence:.2%}")
-
+            # Display the video
             frame_placeholder.image(plotted, channels="BGR", caption="Video Frame")
-
+        
+        # Clean up the temporary file
         if stop_placeholder:
             os.unlink(temp_file.name)
             break
