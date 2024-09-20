@@ -109,7 +109,3 @@ def inference_video(uploaded_file):
 
 if __name__=='__main__':
     main()
-
-
-
-
